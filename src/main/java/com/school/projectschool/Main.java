@@ -1,11 +1,34 @@
 package com.school.projectschool;
 
+import com.school.projectschool.util.database.MySqlConnection;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+
+        try (Connection connection = MySqlConnection.getConnection()) {
+            // Realiza operaciones con la base de datos aquí
+            String query = "SELECT * FROM student";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Procesa los resultados
+                    String columna1 = resultSet.getString("columna1");
+                    String columna2 = resultSet.getString("columna2");
+                    // Realiza operaciones con los datos obtenidos
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
         // Getting Parameters
         char mainMenu = 'a';
         boolean mainMenu_bol;
