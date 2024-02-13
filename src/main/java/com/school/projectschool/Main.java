@@ -250,14 +250,12 @@ public class Main {
                             }
                             case 'E': {
                                 System.out.println("Editing Grades mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesGrades.updateMethod('G');
                                 break;
                             }
                             case 'D': {
                                 System.out.println("Deleting Grades mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesGrades.deleteMethod('G');
                                 break;
                             }
                             case 'X': {
