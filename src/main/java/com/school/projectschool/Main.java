@@ -1,28 +1,31 @@
 package com.school.projectschool;
 
+import com.school.projectschool.util.CRUD.GradesResources;
+import com.school.projectschool.util.CRUD.ClassResources;
 import com.school.projectschool.util.database.MySqlConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+        ClassResources resourcesClass = new ClassResources();
+        GradesResources resourcesGrades = new GradesResources();
 
         try (Connection connection = MySqlConnection.getConnection()) {
-            // Realiza operaciones con la base de datos aquí
-            String query = "SELECT * FROM student";
+            String query = "SELECT * FROM Grades";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
                  ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    // Procesa los resultados
-                    String columna1 = resultSet.getString("columna1");
-                    String columna2 = resultSet.getString("columna2");
-                    // Realiza operaciones con los datos obtenidos
+
+                ResultSetMetaData metaData = resultSet.getMetaData();
+                int columnCount = metaData.getColumnCount();
+
+                for (int i = 1; i <= columnCount; i++) {
+                    String columnName = metaData.getColumnName(i);
+                    System.out.println("Nombre de la columna " + i + ": " + columnName);
                 }
             }
         } catch (SQLException e) {
@@ -39,14 +42,12 @@ public class Main {
         char classMenu = 'a';
         char roomMenu = 'a';
         char gradesMenu = 'a';
-      // database string initializers
-      
+        // database string initializers
+
         String selectDB = "select";
         String insertDB = "insert";
         String deleteDB = "remove";
         String updateDB = "update";
-
-
 
 
         //main menu call
@@ -152,35 +153,30 @@ public class Main {
                     break;
                 }
                 case 'C': {
-                    System.out.println("Selecting Class Management ");
+                    System.out.println("\n Selecting Class Management \n");
                     do {
-                        System.out.println("Please select from the options: ");
+                        System.out.println("\nPlease select from the options: \n");
                         System.out.println("For inserting new Class data, select N ");
                         System.out.println("For Editing Class data, select E: ");
                         System.out.println("For Deleting Class data, select D: ");
-                        System.out.println("To return to the prior menu press X ");
+                        System.out.println("To return to the prior menu press X \n");
                         classMenu = menuOption.next().charAt(0);
 
                         switch (classMenu) {
                             case 'N': {
-                                System.out.println("Insert Class mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesClass.insertMethod('C');
                                 break;
                             }
                             case 'E': {
-                                System.out.println("Editing Class mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesClass.updateMethod('C');
                                 break;
                             }
                             case 'D': {
-                                System.out.println("Deleting Class mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesClass.deleteMethod('C');
+                                break; }
 
-                                break;
-                            }
                             case 'X': {
-                                System.out.println("Returning to main menu. ");
+                                System.out.println("Returning to main menu. \n");
                                 classMenu = 'X';
                                 break;
                             }
@@ -249,8 +245,7 @@ public class Main {
 
                         switch (gradesMenu) {
                             case 'N': {
-                                System.out.println("Insert Grades mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesGrades.insertMethod('G');
                                 break;
                             }
                             case 'E': {
@@ -295,5 +290,5 @@ public class Main {
         while (  mainMenu != 'X') ;
         System.out.println("Thanks for using this program.");
 
-        }
     }
+}
