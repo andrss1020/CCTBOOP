@@ -129,13 +129,13 @@ public class Main {
                             }
                             case 'E': {
                                 System.out.println("Editing Teacher mode enabled: ");
-                                resourcesInstructor.insertMethod('T');
+                                resourcesInstructor.updateMethod('T');
 
                                 break;
                             }
                             case 'D': {
                                 System.out.println("Deleting Teacher mode enabled: ");
-                                resourcesInstructor.insertMethod('T');
+                                resourcesInstructor.deleteMethod('T');
 
                                 break;
                             }
