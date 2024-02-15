@@ -2,6 +2,7 @@ package com.school.projectschool;
 
 import com.school.projectschool.util.CRUD.GradesResources;
 import com.school.projectschool.util.CRUD.ClassResources;
+import com.school.projectschool.util.CRUD.InstructorResources;
 import com.school.projectschool.util.database.MySqlConnection;
 
 import java.sql.*;
@@ -14,6 +15,7 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         ClassResources resourcesClass = new ClassResources();
         GradesResources resourcesGrades = new GradesResources();
+        InstructorResources resourcesInstructor = new InstructorResources();
 
         try (Connection connection = MySqlConnection.getConnection()) {
             String query = "SELECT * FROM Grades";
@@ -122,18 +124,18 @@ public class Main {
                         switch (teacherMenu) {
                             case 'N': {
                                 System.out.println("Insert Teacher mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesInstructor.insertMethod('T');
                                 break;
                             }
                             case 'E': {
                                 System.out.println("Editing Teacher mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesInstructor.insertMethod('T');
 
                                 break;
                             }
                             case 'D': {
                                 System.out.println("Deleting Teacher mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesInstructor.insertMethod('T');
 
                                 break;
                             }

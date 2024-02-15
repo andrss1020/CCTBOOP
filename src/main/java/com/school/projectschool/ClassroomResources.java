@@ -1,23 +1,25 @@
-package com.school.projectschool.util.CRUD;
+package com.school.projectschool;
 
+import com.school.projectschool.util.CRUD.BaseResources;
 
-import java.sql.*;
-public class GradesResources extends BaseResources{
-    public GradesResources() {
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class ClassroomResources extends BaseResources {
+    public ClassroomResources() {
         super();
     }
 
     public void insertMethod(char optionCase) {
 
-        System.out.println("Insert Grades mode enabled: ");
+        System.out.println("Insert Classroom mode enabled: ");
 
         try {
-            // Make the first selection to show what the user is seeing.
             String tableOptionCase = valuesOfMap.get(optionCase);
             System.out.println("Class DB contains: ");
 
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Grades' idClass: ");
+            System.out.println("\n Please insert the new Classroom' idClass: ");
             int studentId = Integer.parseInt(scan.nextLine());
             System.out.println("Assign the Course ID now: ");
             int courseId = Integer.parseInt(scan.nextLine());

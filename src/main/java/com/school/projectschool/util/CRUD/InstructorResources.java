@@ -1,31 +1,32 @@
 package com.school.projectschool.util.CRUD;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-import java.sql.*;
-public class GradesResources extends BaseResources{
-    public GradesResources() {
+public class InstructorResources extends BaseResources {
+
+    public InstructorResources() {
         super();
     }
 
     public void insertMethod(char optionCase) {
 
-        System.out.println("Insert Grades mode enabled: ");
+        System.out.println("Insert Instructor mode enabled: ");
 
         try {
-            // Make the first selection to show what the user is seeing.
             String tableOptionCase = valuesOfMap.get(optionCase);
-            System.out.println("Class DB contains: ");
+            System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Grades' idClass: ");
-            int studentId = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the Course ID now: ");
-            int courseId = Integer.parseInt(scan.nextLine());
+            System.out.println("\n Please insert the new Instructor' idClass: ");
+            int InstructorId = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the InstructorId now: ");
+            String InstructorCode = (scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentId, CourseId) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (InstructorId, InstructorCode) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, studentId);
-                preparedStatement.setInt(2, courseId);
+                preparedStatement.setInt(1, InstructorId);
+                preparedStatement.setString(2, InstructorCode);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -38,27 +39,27 @@ public class GradesResources extends BaseResources{
     }
 
     public void updateMethod(char optionCase) {
-        System.out.println("Editing Grades mode enabled: ");
+        System.out.println("Editing Instructor enabled: ");
 
         try {
             String tableOptionCase = valuesOfMap.get(optionCase);
-            System.out.println("Grades DB contains: ");
+            System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);
 
-            System.out.println("\n Please insert the ID of the grade row to edit: ");
-            int gradeId = Integer.parseInt(scan.nextLine());
+            System.out.println("\n Please insert the ID of the Instructor row to edit: ");
+            String Name = scan.nextLine();
 
-            System.out.println("Enter the new Student ID: ");
-            int studentId = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the new Course ID: ");
-            int courseId = Integer.parseInt(scan.nextLine());
+            System.out.println("Enter the new Instructor ID: ");
+            System.out.println("Assign the new Name: ");
+            int InstructorId = Integer.parseInt(scan.nextLine());
+            String InstructorCode = "CCTB-Instructor" + InstructorId;
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET StudentId = ?, CourseId = ? WHERE GradeId = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET InstructorId = ?, Name = ? WHERE InstructorCode = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, studentId);
-                preparedStatement.setInt(2, courseId);
-                preparedStatement.setInt(3, gradeId);
+                preparedStatement.setInt(1, InstructorId);
+                preparedStatement.setString(2, Name );
+                preparedStatement.setString(3, InstructorCode);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -72,25 +73,25 @@ public class GradesResources extends BaseResources{
     }
 
     public void deleteMethod(char optionCase) {
-        System.out.println("Deleting Grades mode enabled: ");
+        System.out.println("Deleting Instructor mode enabled: ");
 
         try {
             String tableOptionCase = valuesOfMap.get(optionCase);
-            System.out.println("Grades DB contains: ");
+            System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);
 
-            System.out.println("\n Please insert the ID of the grade row to DELETE: ");
-            int gradeId = Integer.parseInt(scan.nextLine());
+            System.out.println("\n Please insert the ID of the Instructor row to DELETE: ");
+            int InstructorId = Integer.parseInt(scan.nextLine());
 
-            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE GradeId = ?";
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE InstructorId = ?";
             System.out.println(deleteQuery + "\n");
-            System.out.println("Are you sure you want to delete this grade? (Yes/No)\n");
+            System.out.println("Are you sure you want to delete this Instructor? (Yes/No)\n");
             String areYouSure = scan.nextLine();
 
             if (areYouSure.equals("Yes")) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, gradeId);
+                    preparedStatement.setInt(1, InstructorId);
 
                     int rowCount = preparedStatement.executeUpdate();
                     System.out.println("Updated Rows: " + rowCount);
