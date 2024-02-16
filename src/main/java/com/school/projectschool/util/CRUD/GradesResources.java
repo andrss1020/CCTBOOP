@@ -13,7 +13,7 @@ public class GradesResources extends BaseResources{
 
         try {
             // Make the first selection to show what the user is seeing.
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Class DB contains: ");
 
             selectMethod(optionCase);
@@ -41,7 +41,7 @@ public class GradesResources extends BaseResources{
         System.out.println("Editing Grades mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Grades DB contains: ");
 
             selectMethod(optionCase);
@@ -75,7 +75,7 @@ public class GradesResources extends BaseResources{
         System.out.println("Deleting Grades mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Grades DB contains: ");
 
             selectMethod(optionCase);

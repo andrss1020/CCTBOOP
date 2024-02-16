@@ -14,7 +14,7 @@ public class InstructorResources extends BaseResources {
         System.out.println("Insert Instructor mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);
@@ -42,7 +42,7 @@ public class InstructorResources extends BaseResources {
         System.out.println("Editing Instructor enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);
@@ -76,7 +76,7 @@ public class InstructorResources extends BaseResources {
         System.out.println("Deleting Instructor mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);

@@ -15,7 +15,7 @@ public class ClassroomResources extends BaseResources {
         System.out.println("Insert Classroom mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Class DB contains: ");
 
             selectMethod(optionCase);
@@ -43,7 +43,7 @@ public class ClassroomResources extends BaseResources {
         System.out.println("Editing Grades mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Grades DB contains: ");
 
             selectMethod(optionCase);
@@ -77,7 +77,7 @@ public class ClassroomResources extends BaseResources {
         System.out.println("Deleting Grades mode enabled: ");
 
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Grades DB contains: ");
 
             selectMethod(optionCase);

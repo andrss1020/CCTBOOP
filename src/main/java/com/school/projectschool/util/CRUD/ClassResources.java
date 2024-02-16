@@ -13,7 +13,7 @@ public class ClassResources extends BaseResources {
 
         try {
             // Make the first selection to show what the user is seeing.
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Class DB contains: ");
             selectMethod(optionCase);
             System.out.println("\n Please insert the new Class' name: ");
@@ -38,7 +38,7 @@ public class ClassResources extends BaseResources {
 
     public void selectMethod(char optionCase) {
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             String query = "SELECT * FROM " + tableOptionCase;
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
