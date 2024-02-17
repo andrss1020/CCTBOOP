@@ -9,10 +9,10 @@ public class MappingValues {
         Map<Character, String> map = new HashMap<>();
 
         // Add elements to map
-        map.put('C', "Class");
+        map.put('C', "Course");
         map.put('S', "Student");
-        map.put('T', "Instructor");
-        map.put('R', "Room");
+        map.put('I', "Instructor");
+        map.put('R', "Classroom");
         map.put('G', "Grades");
 
         return map;

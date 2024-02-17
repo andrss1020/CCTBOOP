@@ -47,4 +47,20 @@ public abstract class BaseResources implements CRUDoperations {
             throw new RuntimeException(e);
         }
     }
+
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(*) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            int nextId = 1;
+
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
+            }
+
+            return nextId;
+        }
+    }
 }

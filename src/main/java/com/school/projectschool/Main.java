@@ -42,7 +42,7 @@ public class Main {
                         studentMenu = menuOption.next().charAt(0);
 
                         switch (studentMenu) {
-                            case 'N': {
+                            case 'I': {
                                 System.out.println("Insert Student mode enabled: ");
                                 // call external class for connecting to DB
                                 break;
@@ -74,14 +74,14 @@ public class Main {
                     while (  studentMenu != 'X') ;
                     break;
                 }
-                case 'T': {
-                    System.out.println("Selecting Teacher Management \n");
+                case 'I': {
+                    System.out.println("Selecting Instructor Management \n");
                     do {
-                        Messages.optionsMenu('T');
+                        Messages.optionsMenu('I');
                         teacherMenu = menuOption.next().charAt(0);
 
                         switch (teacherMenu) {
-                            case 'N': {
+                            case 'I': {
                                 System.out.println("Insert Teacher mode enabled: ");
                                 resourcesInstructor.insertMethod('T');
                                 break;
@@ -120,7 +120,7 @@ public class Main {
                         classMenu = menuOption.next().charAt(0);
 
                         switch (classMenu) {
-                            case 'N': {
+                            case 'I': {
                                 resourcesClass.insertMethod('C');
                                 break;
                             }
@@ -154,7 +154,7 @@ public class Main {
                         roomMenu = menuOption.next().charAt(0);
 
                         switch (roomMenu) {
-                            case 'N': {
+                            case 'I': {
                                 System.out.println("Insert Class room mode enabled: ");
                                 // call external class for connecting to DB
                                 break;
@@ -193,7 +193,7 @@ public class Main {
                         gradesMenu = menuOption.next().charAt(0);
 
                         switch (gradesMenu) {
-                            case 'N': {
+                            case 'I': {
                                 resourcesGrades.insertMethod('G');
                                 break;
                             }

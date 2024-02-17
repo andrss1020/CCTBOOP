@@ -17,7 +17,7 @@ public class Messages {
         Map<Character, String> valuesOfTable =  new MappingValues().tablesSchool();
         String valueProperty = valuesOfTable.get(schoolProperty);
         System.out.println("\n Please select from the options: ");
-        System.out.println("For inserting new " + valueProperty + " data, select N");
+        System.out.println("For inserting new " + valueProperty + " data, select I");
         System.out.println("For Editing " + valueProperty + " data, select  E ");
         System.out.println("For Deleting " + valueProperty + " data, select  D ");
         System.out.println("To return to the prior menu press  X ");

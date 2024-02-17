@@ -1,124 +1,111 @@
 package com.school.projectschool.util.CRUD;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-//Class Students to be called by the Student Management Menu
-public class StudentsResources {
+public class StudentsResources extends BaseResources {
 
     public StudentsResources() {
         super();
     }
 
-    public static void insertMethod(Connection connection) throws SQLException {
+    public void insertMethod(char optionCase) {
+        System.out.println("Insert Student mode enabled: ");
 
-        String insertStudentQuery = "INSERT INTO Student (StudentID, StudentName) VALUES (?, ?)";
+        try {
+            String tableOptionCase = valuesOfTable.get(optionCase);
+            System.out.println("Student DB contains: ");
 
-        try (PreparedStatement statement = connection.prepareStatement(insertStudentQuery)) {
+            selectMethod(optionCase);
 
-            // Obtém o próximo valor do sequenciador para StudentID
-            int nextStudentID = nextStudentID(connection);
+//            System.out.println("\nPlease insert the new Student's ID: ");
+            int studentId = getNextId(optionCase);
 
-            // Solicita ao usuário as informações do novo estudante
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please insert the student name:");
-            String nome = scanner.nextLine();
-            scanner.close();
+            System.out.println("Assign the Student's name: ");
+            String studentName = scan.nextLine();
 
-            //Executa o query para add novo estudante na tabela
-            statement.setInt(1, nextStudentID);
-            statement.setString(2, nome);
-            int afectedLines = statement.executeUpdate();
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, StudentName) VALUES (?, ?)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                preparedStatement.setInt(1, studentId);
+                preparedStatement.setString(2, studentName);
 
-            // Verifica se a inserção foi bem-sucedida
-            if (afectedLines > 0) {
-                System.out.println("Student added!");
-            } else {
-                System.out.println("Error to add student");
+                int rowCount = preparedStatement.executeUpdate();
+                System.out.println("Updated Rows: " + rowCount);
             }
 
+            System.out.println("\nUpdated Table \n");
+            selectMethod(optionCase);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
+    public void updateMethod(char optionCase) {
+        System.out.println("Editing Student enabled: ");
 
-    public static void StudentDelete(Connection connection) throws SQLException {
+        try {
+            String tableOptionCase = valuesOfTable.get(optionCase);
+            System.out.println("Student DB contains: ");
 
-        String deleteStudentQuery = "DELETE FROM Student WHERE StudentID = ?";
+            selectMethod(optionCase);
 
-        try (PreparedStatement statement = connection.prepareStatement(deleteStudentQuery)) {
+            System.out.println("\nPlease insert the ID of the Student row to edit: ");
+            int studentId = Integer.parseInt(scan.nextLine());
 
-            // Solicita ao usuário as informações do estudante
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please insert the Student ID to be deleted:");
-            Integer deleteStudentID = scanner.nextInt();
-            scanner.close();
+            System.out.println("Enter the new Student ID: ");
+            System.out.println("Assign the new name: ");
+            String studentName = scan.nextLine();
 
-            //Executa o query para deletar estudante na tabela
-            statement.setInt(1, deleteStudentID);
-            int afectedLines = statement.executeUpdate();
+            String updateQuery = "UPDATE " + tableOptionCase + " SET StudentName = ? WHERE StudentID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                preparedStatement.setString(1, studentName);
+                preparedStatement.setInt(2, studentId);
 
-            // Verifica se a inserção foi bem-sucedida
-            if (afectedLines > 0) {
-                System.out.println("Student deleted!");
-            } else {
-                System.out.println("Student ID not found.");
+                int rowCount = preparedStatement.executeUpdate();
+                System.out.println("Updated Rows: " + rowCount);
             }
 
+            System.out.println("\nUpdated Table \n");
+            selectMethod(optionCase);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
+    public void deleteMethod(char optionCase) {
+        System.out.println("Deleting Student mode enabled: ");
 
-    public static void StudentEdit(Connection connection) throws SQLException {
+        try {
+            String tableOptionCase = valuesOfTable.get(optionCase);
+            System.out.println("Student DB contains: ");
 
-        String editStudentQuery = "UPDATE Student SET StudentName = ? WHERE StudentID = ?";
+            selectMethod(optionCase);
 
-        try (PreparedStatement statement = connection.prepareStatement(editStudentQuery)) {
+            System.out.println("\nPlease insert the ID of the Student row to DELETE: ");
+            int studentId = Integer.parseInt(scan.nextLine());
 
-            // Solicita ao usuário as informações do estudante
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Please insert the Student ID to be edited:");
-            Integer editStudentID = scanner.nextInt();
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE StudentID = ?";
+            System.out.println(deleteQuery + "\n");
+            System.out.println("Are you sure you want to delete this Student? (Yes/No)\n");
+            String areYouSure = scan.nextLine();
 
-            System.out.println("Please insert the new name for the student:");
-            scanner.nextLine();
-            String newStudentName = scanner.nextLine();
+            if (areYouSure.equals("Yes")) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                    preparedStatement.setInt(1, studentId);
 
-            //Executa o query para deletar estudante na tabela
-            statement.setString(1, newStudentName);
-            statement.setInt(2, editStudentID);
+                    int rowCount = preparedStatement.executeUpdate();
+                    System.out.println("Updated Rows: " + rowCount);
+                }
 
-            int afectedLines = statement.executeUpdate();
-
-            // Verifica se a inserção foi bem-sucedida
-            if (afectedLines > 0) {
-                System.out.println("Student deleted!");
+                System.out.println("\nUpdated Table \n");
+                selectMethod(optionCase);
             } else {
-                System.out.println("Student ID not found.");
+                System.out.println("\nValue not eliminated: ");
             }
-
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
-
-    private static int nextStudentID(Connection connection) throws SQLException {
-        // Obtém o próximo valor do sequenciador para StudentID
-        String sql = "SELECT MAX(StudentID) + 1 AS nextStudentID FROM Student";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        int nextStudentID = 1;
-
-        if (resultSet.next()) {
-            nextStudentID = resultSet.getInt("nextStudentID");
-        }
-
-        resultSet.close();
-        preparedStatement.close();
-
-        return nextStudentID;
-    }
-
 }
-
