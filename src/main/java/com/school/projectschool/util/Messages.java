@@ -10,6 +10,7 @@ public class Messages {
                 + "\n For Courses management, select C "
                 + "\n For Class room management, select R "
                 + "\n For Grades  management, select G "
+                + "\n For Report Tables, select P "
                 + "\n To leave, press X ");
     }
 

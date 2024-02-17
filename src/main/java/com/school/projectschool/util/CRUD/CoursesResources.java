@@ -2,8 +2,8 @@ package com.school.projectschool.util.CRUD;
 
 import com.school.projectschool.util.database.MySqlConnection;
 import java.sql.*;
-public class ClassResources extends BaseResources {
-    public ClassResources() {
+public class CoursesResources extends BaseResources {
+    public CoursesResources() {
         super();
     }
 
@@ -16,15 +16,22 @@ public class ClassResources extends BaseResources {
             String tableOptionCase = valuesOfTable.get(optionCase);
             System.out.println("Class DB contains: ");
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Class' name: ");
-            String className = scan.nextLine();
-            System.out.println("Assign the Teacher ID now: ");
-            int teacherID = Integer.parseInt(scan.nextLine());
+            int courseID = getNextId(optionCase);
+            System.out.println("\n Please insert the new Course' name: ");
+            String courseName = scan.nextLine();
+            System.out.println("Assign the Instructor ID now: ");
+            selectMethod('I');
+            int instructorID = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the Classroom ID now: ");
+            selectMethod('R');
+            int classroomID = Integer.parseInt(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (Classname, TeacherId) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (CourseID, CourseName, InstructorID, ClassroomID) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setString(1, className);
-                preparedStatement.setInt(2, teacherID);
+                preparedStatement.setInt(1, courseID);
+                preparedStatement.setString(2, courseName);
+                preparedStatement.setInt(3, instructorID);
+                preparedStatement.setInt(4, classroomID);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -36,140 +43,96 @@ public class ClassResources extends BaseResources {
         }
     }
 
-    public void selectMethod(char optionCase) {
+    public void updateMethod(char optionCase) {
+        System.out.println("Editing Courses mode enabled: ");
+
         try {
             String tableOptionCase = valuesOfTable.get(optionCase);
-            String query = "SELECT * FROM " + tableOptionCase;
+            System.out.println("Courses DB contains: ");
 
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
+            selectMethod(optionCase);
 
-                ResultSetMetaData metaData = resultSet.getMetaData();
-                int columnCount = metaData.getColumnCount();
+            System.out.println("\n Please insert the ID of the course row to edit: ");
+            int courseId = Integer.parseInt(scan.nextLine());
 
-                // Print column names
-                for (int i = 1; i <= columnCount; i++) {
-                    System.out.print(metaData.getColumnName(i) + "\t");
-                }
-                System.out.println();
+            System.out.println("Assign the new Course Name: ");
+            String courseName = scan.nextLine();
 
-                // Print values of columns
-                while (resultSet.next()) {
-                    for (int i = 1; i <= columnCount; i++) {
-                        System.out.print(resultSet.getString(i) + "\t");
-                    }
-                    System.out.println();
-                }
+            System.out.println("Assign the new Instructor ID: ");
+            selectMethod('I');
+            int instructorID = Integer.parseInt(scan.nextLine());
+
+            System.out.println("Assign the new Classroom ID: ");
+            selectMethod('R');
+            int classroomID = Integer.parseInt(scan.nextLine());
+
+            String updateQuery = "UPDATE " + tableOptionCase + " SET CourseName = ?, InstructorID  = ?, ClassroomID = ? WHERE CourseID = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                preparedStatement.setString(1, courseName);
+                preparedStatement.setInt(2, instructorID);
+                preparedStatement.setInt(3, classroomID);
+                preparedStatement.setInt(4, courseId);
+
+                int rowCount = preparedStatement.executeUpdate();
+                System.out.println("Updated Rows: " + rowCount);
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    public void updateMethod(char optionCase) {
-        System.out.println("Editing Class mode enabled: ");
-        // call external class for connecting to DB
-
-        try (Connection connection = MySqlConnection.getConnection()) {
-            // performsn first select from to showcase what the user is seeing.
-            String query = "SELECT * FROM test";
-            System.out.println("Class DB contains: ");
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3));
-
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        System.out.println("\n Please insert the ID of the class row to edit: ");
-        int classID = Integer.parseInt(scan.nextLine());
-        System.out.println("Enter the replacement name for this class: ");
-        String className = scan.nextLine();
-        System.out.println("Assign the Teacher ID now: ");
-        int teacherID = Integer.parseInt(scan.nextLine());
-        //String query = "UPDATE test set Classname = " +className+ ", TeacherId " + teacherID + " WHERE id = " + classID +";";
-
-        try
-                (Connection connection = MySqlConnection.getConnection()) {
-            // Does the UPDATE function
-            String query = "UPDATE test SET Classname = '" +className+ "', TeacherId = " + teacherID + " WHERE id = " + classID +";";
-            System.out.println(query);
-            try (PreparedStatement conn = connection.prepareStatement(query)) {
-                int return1 = conn.executeUpdate();
-                System.out.println("Updated Rows: " + return1); // returns the number of rows affected
-            }
-            query = "SELECT * FROM test"; // shows the resulted table
             System.out.println("\nUpdated Table \n");
-            try (PreparedStatement conn = connection.prepareStatement(query);
-                 ResultSet resultSet = conn.executeQuery()) {
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3));
-                }
-            }
-
+            selectMethod(optionCase);
         } catch (SQLException e) {
-            throw new RuntimeException(e); }
+            throw new RuntimeException(e);
+        }
 
 
     }
 
     public void deleteMethod(char optionCase) {
-        System.out.println("Deleting Class mode enabled: ");
-        // call external class for connecting to DB
-        try (Connection connection = MySqlConnection.getConnection()) {
-            // performsn first select from to showcase what the user is seeing.
-            String query = "SELECT * FROM test";
-            System.out.println("Class DB contains: ");
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query);
-                 ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2)+ ", " + resultSet.getString(3));
+        System.out.println("Deleting Course mode enabled: ");
+        try {
+            String tableOptionCase = valuesOfTable.get(optionCase);
+            System.out.println("Course DB contains: ");
 
+            selectMethod(optionCase);
+
+            System.out.println("\nPlease insert the ID of the Course row to DELETE: ");
+            int courseID = Integer.parseInt(scan.nextLine());
+
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE CourseID = ?";
+            System.out.println(deleteQuery + "\n");
+            System.out.println("Are you sure you want to delete this Course? (Yes/No)\n");
+            String areYouSure = scan.nextLine();
+
+            if (areYouSure.equals("Yes")) {
+                try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
+                    preparedStatement.setInt(1, courseID);
+
+                    int rowCount = preparedStatement.executeUpdate();
+                    System.out.println("Updated Rows: " + rowCount);
                 }
+
+                System.out.println("\nUpdated Table \n");
+                selectMethod(optionCase);
+            } else {
+                System.out.println("\nValue not eliminated: ");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e); }
+            throw new RuntimeException(e);
+        }
+    }
 
-        System.out.println("\n Please insert the ID of the class row to DELETE: ");
-        int classID = Integer.parseInt(scan.nextLine());
-        //String query = "DELETE FROM test WHERE id = " + classID +";";
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(CourseID) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-        String query = "DELETE FROM test WHERE id = " + (classID) + ";";
-        System.out.println(query + "\n");
-        System.out.println("Are you sure you want to delete this class? (Yes/No)\n");
-        String AreYouSure = scan.nextLine();
-        if (AreYouSure.equals("Yes")) {
-            try (Connection connection = MySqlConnection.getConnection()) {
-                // Does the DELETE function
-                try (PreparedStatement conn = connection.prepareStatement(query)) {
-                    int return1 = conn.executeUpdate();
-                    System.out.println("Updated Rows: " + return1); // returns the number of rows affected
+            int nextId = 1;
 
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
             }
 
-            query = "SELECT * FROM test"; // shows the resulted table
-            System.out.println("\nUpdated Table \n");
-            try (Connection connection = MySqlConnection.getConnection()) {
-                try (PreparedStatement conn = connection.prepareStatement(query);
-                     ResultSet resultSet = conn.executeQuery()) {
-                    while (resultSet.next()) {
-                        System.out.println(resultSet.getString((1)) + ", " + resultSet.getString(2) + ", " + resultSet.getString(3));
-                    }
-
-
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }else { }
+            return nextId;
+        }
     }
 }

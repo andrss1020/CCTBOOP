@@ -4,6 +4,7 @@ import com.school.projectschool.Classrooms;
 
 import javax.security.auth.Subject;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ClassroomResources     extends BaseResources {
@@ -21,15 +22,14 @@ public class ClassroomResources     extends BaseResources {
             System.out.println("Classrooms DB contains: ");
 
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Classrooms' idClass: ");
-            int ClassroomsID = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the ClassroomsID now: ");
-            String ClassroomsCode = (scan.nextLine());
+            int classroomID = getNextId(optionCase);
+            System.out.println("Assign the Classrooms Number now: ");
+            int classroomNumber = Integer.parseInt(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClasroomsID, ClassroomsCode) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClasroomsID, ClassroomNumber) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, ClassroomsID);
-                preparedStatement.setString(2, ClassroomsCode);
+                preparedStatement.setInt(1, classroomID);
+                preparedStatement.setInt(2, classroomNumber);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -51,18 +51,14 @@ public class ClassroomResources     extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\n Please insert the ID of the classrooms row to edit: ");
-            String Subject = scan.nextLine();
+            int classroomId = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the new Classroom Number: ");
+            int classroomNumber = Integer.parseInt(scan.nextLine());;
 
-            System.out.println("Enter the new Classrooms ID: ");
-            System.out.println("Assign the new Name: ");
-            int ClassroomsId = Integer.parseInt(scan.nextLine());
-            String ClassroomsCode = "CCTB-Classrooms" + ClassroomsID;
-
-            String updateQuery = "UPDATE " + tableOptionCase + " SET ClassroomsID = ?, Subject = ? WHERE ClassroomsCode = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET ClassroomNumber = ? WHERE ClassroomID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, ClassroomsId);
-                preparedStatement.setString(2, Subject);
-                preparedStatement.setString(3, ClassroomsCode);
+                preparedStatement.setInt(1, classroomNumber);
+                preparedStatement.setInt(2, classroomId);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -85,16 +81,15 @@ public class ClassroomResources     extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\n Please insert the ID of the Classrooms row to DELETE: ");
-            int ClassroomsId = Integer.parseInt(scan.nextLine());
+            int classroomId = Integer.parseInt(scan.nextLine());
 
-            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE ClassroomsId = ?";
-            System.out.println(deleteQuery + "\n");
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE ClassroomID = ?";
             System.out.println("Are you sure you want to delete this Classrooms? (Yes/No)\n");
             String areYouSure = scan.nextLine();
 
             if (areYouSure.equals("Yes")) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, ClassroomsId);
+                    preparedStatement.setInt(1, classroomId);
 
                     int rowCount = preparedStatement.executeUpdate();
                     System.out.println("Updated Rows: " + rowCount);
@@ -107,6 +102,22 @@ public class ClassroomResources     extends BaseResources {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(ClassroomID) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            int nextId = 1;
+
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
+            }
+
+            return nextId;
         }
     }
 }

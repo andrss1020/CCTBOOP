@@ -1,33 +1,29 @@
 package com.school.projectschool;
 
 public class Instructor {
-    private static int nextInstructorId = 0;
 
     private int InstructorID;
     private String InstructorName;
 
-    public Instructor(String name) {
-        this.name = name;
-        this.InstructorID = nextInstructorId++;
+    public Instructor(int InstructorID, String InstructorName) {
+        this.InstructorName = InstructorName;
+        this.InstructorID = InstructorID;
         //this.InstructorCode = generateInstructorCode();
     }
 
-    private String generateInstructorCode(){
-        return "CCTB-Instructor" + String.format("%04d", InstructorID);
-    }
-
-    public int getInstructorId() {
+    public int getInstructorID() {
         return InstructorID;
     }
 
-    public void setInstructorId(int InstructorID) {
-        this.InstructorID = InstructorID;
+    public void setInstructorID(int instructorID) {
+        InstructorID = instructorID;
     }
 
-    public String getName() {
-        return name;
+    public String getInstructorName() {
+        return InstructorName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setInstructorName(String instructorName) {
+        InstructorName = instructorName;
     }
+}

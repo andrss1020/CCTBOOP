@@ -1,6 +1,7 @@
 package com.school.projectschool.util.CRUD;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class InstructorResources extends BaseResources {
@@ -18,14 +19,15 @@ public class InstructorResources extends BaseResources {
             System.out.println("Instructor DB contains: ");
 
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Instructor' idClass: ");
-            int InstructorID = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the InstructorID now: ");
+            int instructorId = getNextId(optionCase);
+
+            System.out.println("\n Please insert the name of Instructor' instructorName: ");
+            String instructorName = scan.nextLine();
 
             String insertQuery = "INSERT INTO " + tableOptionCase + " (InstructorID, InstructorName) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, InstructorID);
-                preparedStatement.setString(2, InstructorName);
+                preparedStatement.setInt(1, instructorId);
+                preparedStatement.setString(2, instructorName);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -47,17 +49,15 @@ public class InstructorResources extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\n Please insert the ID of the Instructor row to edit: ");
-            String InstructorName = scan.nextLine();
+            int instructorID = Integer.parseInt(scan.nextLine());
 
-            System.out.println("Enter the new Instructor ID: ");
             System.out.println("Assign the new Name: ");
-            int InstructorID = Integer.parseInt(scan.nextLine());
-            String InstructorName = "CCTB-Instructor" + InstructorID;
+            String instructorName = scan.nextLine();
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET InstructorID = ?, Name = ? WHERE InstructorCode = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET InstructorName = ? WHERE InstructorID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, InstructorID);
-                preparedStatement.setString(2, InstructorName );
+                preparedStatement.setString(1, instructorName);
+                preparedStatement.setInt(2,  instructorID);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -102,6 +102,22 @@ public class InstructorResources extends BaseResources {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(InstructorID) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            int nextId = 1;
+
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
+            }
+
+            return nextId;
         }
     }
 }

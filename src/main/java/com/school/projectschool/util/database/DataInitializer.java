@@ -8,10 +8,8 @@ public class DataInitializer  {
     public void InitializeData() {
 
         try (Connection connection = MySqlConnection.getConnection() ){
-            // delete data from all tables
             deleteAll(connection);
 
-             // Inserir dados nas tabelas
             insertStudents(connection);
             insertInstructors(connection);
             insertClassroom(connection);

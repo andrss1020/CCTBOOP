@@ -6,9 +6,9 @@ public class Student {
     private int StudentID;
     private String StudentName;
 
-    public Student(String StudentName) {
-        this.StudentID = nextStudentID++;
-        this.name = name;
+    public Student(int StudentID, String StudentName) {
+        this.StudentID = StudentID;
+        this.StudentName = StudentName;
     }
 
     // Getter method for StudentID
@@ -33,3 +33,4 @@ public class Student {
     public void setName(String StudentName) {
         this.StudentName = StudentName;
     }
+}

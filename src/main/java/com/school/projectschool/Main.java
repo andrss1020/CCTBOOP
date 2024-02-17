@@ -1,8 +1,6 @@
 package com.school.projectschool;
 
-import com.school.projectschool.util.CRUD.GradesResources;
-import com.school.projectschool.util.CRUD.ClassResources;
-import com.school.projectschool.util.CRUD.InstructorResources;
+import com.school.projectschool.util.CRUD.*;
 import com.school.projectschool.util.Messages;
 import com.school.projectschool.util.database.DataInitializer;
 
@@ -14,9 +12,11 @@ public class Main {
         DataInitializer dataInitializer = new DataInitializer();
         dataInitializer.InitializeData();
         //Initializer class
-        ClassResources resourcesClass = new ClassResources();
+        CoursesResources resourcesClass = new CoursesResources();
         GradesResources resourcesGrades = new GradesResources();
         InstructorResources resourcesInstructor = new InstructorResources();
+        StudentsResources resourcesStudent = new StudentsResources();
+        ReportUtil reportUtil = new ReportUtil();
 
         // Getting Parameters
         char mainMenu = 'a';
@@ -43,20 +43,16 @@ public class Main {
 
                         switch (studentMenu) {
                             case 'I': {
-                                System.out.println("Insert Student mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesStudent.selectMethod('S');
+                                resourcesStudent.insertMethod('S');
                                 break;
                             }
                             case 'E': {
-                                System.out.println("Editing Student mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesStudent.updateMethod('S');
                                 break;
                             }
                             case 'D': {
-                                System.out.println("Deleting Student mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesStudent.deleteMethod('S');
                                 break;
                             }
                             case 'X': {
@@ -222,6 +218,11 @@ public class Main {
                     while (  gradesMenu != 'X') ;
                     break;
                 }
+                case 'P':{
+                    System.out.println("Generating report... \n");
+                    reportUtil.generateReport();
+                    break;
+                }                
                 case 'X':{
                     System.out.println("Exiting now... \n");
                     mainMenu = 'X';

@@ -17,15 +17,22 @@ public class GradesResources extends BaseResources{
             System.out.println("Class DB contains: ");
 
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Grades' idClass: ");
+            int gradesId = getNextId(optionCase);
+            System.out.println("\n Please insert the studentID' idClass: ");
+            selectMethod('S');
             int studentId = Integer.parseInt(scan.nextLine());
+            selectMethod('C');
             System.out.println("Assign the Course ID now: ");
             int courseId = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the Score grade now: ");
+            double scoreGrade = Double.parseDouble(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentId, CourseId) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, CourseID, GradesID, Grades) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                 preparedStatement.setInt(1, studentId);
                 preparedStatement.setInt(2, courseId);
+                preparedStatement.setInt(3, gradesId);
+                preparedStatement.setDouble(4, scoreGrade);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -49,16 +56,13 @@ public class GradesResources extends BaseResources{
             System.out.println("\n Please insert the ID of the grade row to edit: ");
             int gradeId = Integer.parseInt(scan.nextLine());
 
-            System.out.println("Enter the new Student ID: ");
-            int studentId = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the new Course ID: ");
-            int courseId = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the new Score Grade: ");
+            double scoreGrade = Double.parseDouble(scan.nextLine());
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET StudentId = ?, CourseId = ? WHERE GradeId = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET Grades = ? WHERE GradesID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, studentId);
-                preparedStatement.setInt(2, courseId);
-                preparedStatement.setInt(3, gradeId);
+                preparedStatement.setDouble(1, scoreGrade);
+                preparedStatement.setInt(2, gradeId);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -83,7 +87,7 @@ public class GradesResources extends BaseResources{
             System.out.println("\n Please insert the ID of the grade row to DELETE: ");
             int gradeId = Integer.parseInt(scan.nextLine());
 
-            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE GradeId = ?";
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE GradesID = ?";
             System.out.println(deleteQuery + "\n");
             System.out.println("Are you sure you want to delete this grade? (Yes/No)\n");
             String areYouSure = scan.nextLine();
@@ -103,6 +107,21 @@ public class GradesResources extends BaseResources{
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(GradesID) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            int nextId = 1;
+
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
+            }
+
+            return nextId;
         }
     }
 }

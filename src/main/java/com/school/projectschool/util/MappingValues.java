@@ -14,6 +14,7 @@ public class MappingValues {
         map.put('I', "Instructor");
         map.put('R', "Classroom");
         map.put('G', "Grades");
+        map.put('E', "Enrolment");
 
         return map;
     }

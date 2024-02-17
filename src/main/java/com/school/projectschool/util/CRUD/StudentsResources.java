@@ -3,7 +3,6 @@ package com.school.projectschool.util.CRUD;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class StudentsResources extends BaseResources {
 
@@ -21,15 +20,15 @@ public class StudentsResources extends BaseResources {
             selectMethod(optionCase);
 
 //            System.out.println("\nPlease insert the new Student's ID: ");
-            int StudentID = getNextId(optionCase);
+            int studentId = getNextId(optionCase);
 
             System.out.println("Assign the Student's name: ");
-            String StudentName = scan.nextLine();
+            String studentName = scan.nextLine();
 
             String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, StudentName) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, StudentID);
-                preparedStatement.setString(2, StudentName);
+                preparedStatement.setInt(1, studentId);
+                preparedStatement.setString(2, studentName);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -52,16 +51,16 @@ public class StudentsResources extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\nPlease insert the ID of the Student row to edit: ");
-            int StudentID = Integer.parseInt(scan.nextLine());
+            int studentId = Integer.parseInt(scan.nextLine());
 
             System.out.println("Enter the new Student ID: ");
             System.out.println("Assign the new name: ");
-            String StudentName = scan.nextLine();
+            String studentName = scan.nextLine();
 
             String updateQuery = "UPDATE " + tableOptionCase + " SET StudentName = ? WHERE StudentID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setString(1, StudentName);
-                preparedStatement.setInt(2, StudentID);
+                preparedStatement.setString(1, studentName);
+                preparedStatement.setInt(2, studentId);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -84,7 +83,7 @@ public class StudentsResources extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\nPlease insert the ID of the Student row to DELETE: ");
-            int StudentID = Integer.parseInt(scan.nextLine());
+            int studentId = Integer.parseInt(scan.nextLine());
 
             String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE StudentID = ?";
             System.out.println(deleteQuery + "\n");
@@ -93,7 +92,7 @@ public class StudentsResources extends BaseResources {
 
             if (areYouSure.equals("Yes")) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, StudentID);
+                    preparedStatement.setInt(1, studentId);
 
                     int rowCount = preparedStatement.executeUpdate();
                     System.out.println("Updated Rows: " + rowCount);
@@ -106,6 +105,21 @@ public class StudentsResources extends BaseResources {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(StudentID) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            int nextId = 1;
+
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
+            }
+
+            return nextId;
         }
     }
 }
