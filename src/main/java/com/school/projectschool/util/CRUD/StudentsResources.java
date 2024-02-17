@@ -21,15 +21,15 @@ public class StudentsResources extends BaseResources {
             selectMethod(optionCase);
 
 //            System.out.println("\nPlease insert the new Student's ID: ");
-            int studentId = getNextId(optionCase);
+            int StudentID = getNextId(optionCase);
 
             System.out.println("Assign the Student's name: ");
-            String studentName = scan.nextLine();
+            String StudentName = scan.nextLine();
 
             String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, StudentName) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, studentId);
-                preparedStatement.setString(2, studentName);
+                preparedStatement.setInt(1, StudentID);
+                preparedStatement.setString(2, StudentName);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -52,16 +52,16 @@ public class StudentsResources extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\nPlease insert the ID of the Student row to edit: ");
-            int studentId = Integer.parseInt(scan.nextLine());
+            int StudentID = Integer.parseInt(scan.nextLine());
 
             System.out.println("Enter the new Student ID: ");
             System.out.println("Assign the new name: ");
-            String studentName = scan.nextLine();
+            String StudentName = scan.nextLine();
 
             String updateQuery = "UPDATE " + tableOptionCase + " SET StudentName = ? WHERE StudentID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setString(1, studentName);
-                preparedStatement.setInt(2, studentId);
+                preparedStatement.setString(1, StudentName);
+                preparedStatement.setInt(2, StudentID);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -84,7 +84,7 @@ public class StudentsResources extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\nPlease insert the ID of the Student row to DELETE: ");
-            int studentId = Integer.parseInt(scan.nextLine());
+            int StudentID = Integer.parseInt(scan.nextLine());
 
             String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE StudentID = ?";
             System.out.println(deleteQuery + "\n");
@@ -93,7 +93,7 @@ public class StudentsResources extends BaseResources {
 
             if (areYouSure.equals("Yes")) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, studentId);
+                    preparedStatement.setInt(1, StudentID);
 
                     int rowCount = preparedStatement.executeUpdate();
                     System.out.println("Updated Rows: " + rowCount);

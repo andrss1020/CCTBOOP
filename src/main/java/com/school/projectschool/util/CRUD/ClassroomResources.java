@@ -22,13 +22,13 @@ public class ClassroomResources     extends BaseResources {
 
             selectMethod(optionCase);
             System.out.println("\n Please insert the new Classrooms' idClass: ");
-            int ClassroomsId = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the ClassroomsId now: ");
+            int ClassroomsID = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the ClassroomsID now: ");
             String ClassroomsCode = (scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClasroomsId, ClassroomsCode) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClasroomsID, ClassroomsCode) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, ClassroomsId);
+                preparedStatement.setInt(1, ClassroomsID);
                 preparedStatement.setString(2, ClassroomsCode);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -56,9 +56,9 @@ public class ClassroomResources     extends BaseResources {
             System.out.println("Enter the new Classrooms ID: ");
             System.out.println("Assign the new Name: ");
             int ClassroomsId = Integer.parseInt(scan.nextLine());
-            String ClassroomsCode = "CCTB-Classrooms" + ClassroomsId;
+            String ClassroomsCode = "CCTB-Classrooms" + ClassroomsID;
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET ClassroomsId = ?, Subject = ? WHERE ClassroomsCode = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET ClassroomsID = ?, Subject = ? WHERE ClassroomsCode = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
                 preparedStatement.setInt(1, ClassroomsId);
                 preparedStatement.setString(2, Subject);

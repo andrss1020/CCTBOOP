@@ -3,26 +3,25 @@ package com.school.projectschool;
 public class Instructor {
     private static int nextInstructorId = 0;
 
-    private int instructorId;
-    private String name;
-    private String instructorCode;
+    private int InstructorID;
+    private String InstructorName;
 
     public Instructor(String name) {
         this.name = name;
-        this.instructorId = nextInstructorId++;
-        this.instructorCode = generateInstructorCode();
+        this.InstructorID = nextInstructorId++;
+        //this.InstructorCode = generateInstructorCode();
     }
 
     private String generateInstructorCode(){
-        return "CCTB-Instructor" + String.format("%04d", instructorId);
+        return "CCTB-Instructor" + String.format("%04d", InstructorID);
     }
 
     public int getInstructorId() {
-        return instructorId;
+        return InstructorID;
     }
 
-    public void setInstructorId(int instructorId) {
-        this.instructorId = instructorId;
+    public void setInstructorId(int InstructorID) {
+        this.InstructorID = InstructorID;
     }
 
     public String getName() {
@@ -32,12 +31,3 @@ public class Instructor {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getInstructorCode() {
-        return instructorCode;
-    }
-
-    public void setInstructorCode(String instructorCode) {
-        this.instructorCode = instructorCode;
-    }
-}

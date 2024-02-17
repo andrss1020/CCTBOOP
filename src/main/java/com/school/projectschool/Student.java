@@ -1,47 +1,35 @@
 package com.school.projectschool;
 
 public class Student {
-    private static int nextStudentId = 0;
+    private static int nextStudentID = 0;
 
-    private int studentId;
-    private String name;
-    private String studentCode;
+    private int StudentID;
+    private String StudentName;
 
-    public Student(String name) {
-        this.studentId = nextStudentId++;
+    public Student(String StudentName) {
+        this.StudentID = nextStudentID++;
         this.name = name;
-        this.studentCode = generateStudentCode();
     }
 
-    // Getter method for studentId
+    // Getter method for StudentID
     public int getStudentId() {
-        return studentId;
+        return StudentID;
     }
 
     // Getter method for name
     public String getName() {
-        return name;
-    }
-
-    // Getter method for studentCode
-    public String getStudentCode() {
-        return studentCode;
+        return StudentName;
     }
 
     // Method to generate a unique student code using UUID
     private String generateStudentCode() {
-        return "CCTB-Student" + String.format("%04d", studentId);
+        return "CCTB-Student" + String.format("%04d", StudentID);
     }
 
-    public void setStudentId(int studentId) {
-        this.studentId = studentId;
+    public void setStudentID(int studentId) {
+        this.StudentID = StudentID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String StudentName) {
+        this.StudentName = StudentName;
     }
-
-    public void setStudentCode(String studentCode) {
-        this.studentCode = studentCode;
-    }
-}
