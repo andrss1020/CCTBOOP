@@ -20,14 +20,14 @@ public class ClassroomResources extends BaseResources {
 
             selectMethod(optionCase);
             System.out.println("\n Please insert the new Classroom' idClass: ");
-            int studentId = Integer.parseInt(scan.nextLine());
+            int ClassroomID = Integer.parseInt(scan.nextLine());
             System.out.println("Assign the Course ID now: ");
-            int courseId = Integer.parseInt(scan.nextLine());
+            int ClassroomID = Integer.parseInt(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentId, CourseId) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClassroomID, ClassroomNumber) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, studentId);
-                preparedStatement.setInt(2, courseId);
+                preparedStatement.setInt(1, ClassroomID);
+                preparedStatement.setInt(2, ClassroomNumber);
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -49,18 +49,17 @@ public class ClassroomResources extends BaseResources {
             selectMethod(optionCase);
 
             System.out.println("\n Please insert the ID of the grade row to edit: ");
-            int gradeId = Integer.parseInt(scan.nextLine());
+            int ClassroomID = Integer.parseInt(scan.nextLine());
 
-            System.out.println("Enter the new Student ID: ");
-            int studentId = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the new Course ID: ");
-            int courseId = Integer.parseInt(scan.nextLine());
+            System.out.println("Enter the new Classroom ID: ");
+            int ClassroomID = Integer.parseInt(scan.nextLine());
+            System.out.println("Assign the new Classroom Number ID: ");
+            int ClassroomNumber = Integer.parseInt(scan.nextLine());
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET StudentId = ?, CourseId = ? WHERE GradeId = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET ClassroomID = ?, ClassroomNumber = ? ";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, studentId);
-                preparedStatement.setInt(2, courseId);
-                preparedStatement.setInt(3, gradeId);
+                preparedStatement.setInt(1, ClassroomID);
+                preparedStatement.setInt(2, ClassroomNumber);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -74,25 +73,25 @@ public class ClassroomResources extends BaseResources {
     }
 
     public void deleteMethod(char optionCase) {
-        System.out.println("Deleting Grades mode enabled: ");
+        System.out.println("Deleting Classroom mode enabled: ");
 
         try {
             String tableOptionCase = valuesOfTable.get(optionCase);
-            System.out.println("Grades DB contains: ");
+            System.out.println("Classroom DB contains: ");
 
             selectMethod(optionCase);
 
-            System.out.println("\n Please insert the ID of the grade row to DELETE: ");
-            int gradeId = Integer.parseInt(scan.nextLine());
+            System.out.println("\n Please insert the ID of the Classroom row to DELETE: ");
+            int ClassroomID = Integer.parseInt(scan.nextLine());
 
-            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE GradeId = ?";
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE ClassroomID = ?";
             System.out.println(deleteQuery + "\n");
-            System.out.println("Are you sure you want to delete this grade? (Yes/No)\n");
+            System.out.println("Are you sure you want to delete this Classroom? (Yes/No)\n");
             String areYouSure = scan.nextLine();
 
             if (areYouSure.equals("Yes")) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, gradeId);
+                    preparedStatement.setInt(1, ClassroomID);
 
                     int rowCount = preparedStatement.executeUpdate();
                     System.out.println("Updated Rows: " + rowCount);

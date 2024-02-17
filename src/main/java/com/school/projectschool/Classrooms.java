@@ -1,45 +1,28 @@
 package com.school.projectschool;
 
 public class Classrooms {
+    private int ClassroomID;
+    private int ClassroomNumber;
 
-    private static int nextClassrooms = 0;
-
-    private int ClassroomsId;
-    private String Subject;
-    private String ClassroomsCode;
-
-    public Classrooms(String Subject) {
-        this.Subject = Subject;
-        this.ClassroomsId = nextClassrooms++;
-        this.ClassroomsCode = generateClassroomsCode();
+    public Classrooms(int ClassroomID, int ClassroomNumber) {
+        this.ClassroomID = ClassroomID;
+        this.ClassroomNumber = ClassroomNumber;
     }
 
-    private String generateClassroomsCode(){
-        return "CCTB-Classrooms" + String.format("%04d", ClassroomsId);
+    public int getClassroomID() {
+        return ClassroomID;
     }
 
-    public int getClassroomsId() {
-        return ClassroomsId;
+    public void setClassroomID(int classroomID) {
+        ClassroomID = classroomID;
     }
 
-    public void setClassroomsId(int classroomsId) {
-        this.ClassroomsId = classroomsId;
+    public int getClassroomNumber() {
+        return ClassroomNumber;
     }
 
-    public String getSubject() {
-        return Subject;
-    }
-
-    public void setSubject(String Subject) {
-        this.Subject = Subject;
-    }
-
-    public String getClasssroomsCode() {
-        return this.ClassroomsCode;
-    }
-
-    public void setClasssroomsCode(String ClassroomsCode) {
-        this.ClassroomsCode = ClassroomsCode;
+    public void setClassroomNumber(int classroomNumber) {
+        ClassroomNumber = classroomNumber;
     }
 }
 
