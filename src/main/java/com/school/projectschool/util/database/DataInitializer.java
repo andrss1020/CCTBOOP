@@ -36,7 +36,7 @@ public class DataInitializer  {
 
     private static void insertStudents(Connection connection) throws SQLException {
         String insertStudentQuery = "INSERT INTO Student (StudentID, StudentName) VALUES (?, ?)";
-        //Os metodos setInt e setString sao utilizados para substituir os '?' dentro da string insertStudentQuery.
+
         try (PreparedStatement statement = connection.prepareStatement(insertStudentQuery)) {
             statement.setInt(1, 1);  // Student 01
             statement.setString(2, "Abigail Garcia");
@@ -78,7 +78,45 @@ public class DataInitializer  {
             statement.setString(2, "Harper Hall");
             statement.executeUpdate();
 
+            statement.setInt(1, 11);  // Student 11
+            statement.setString(2, "Bryan Satos");
+            statement.executeUpdate();
 
+            statement.setInt(1, 12);  // Student 12
+            statement.setString(2, "Fatima Mcneil");
+            statement.executeUpdate();
+
+            statement.setInt(1, 13);  // Student 13
+            statement.setString(2, "Dave Gil");
+            statement.executeUpdate();
+
+            statement.setInt(1, 14);  // Student 14
+            statement.setString(2, "Sahib Abudabi");
+            statement.executeUpdate();
+
+            statement.setInt(1, 15);  // Student 15
+            statement.setString(2, "Tony Stark");
+            statement.executeUpdate();
+
+            statement.setInt(1, 16);  // Student 16
+            statement.setString(2, "Megan Fox");
+            statement.executeUpdate();
+
+            statement.setInt(1, 17);  // Student 17
+            statement.setString(2, "Alexandra Navas");
+            statement.executeUpdate();
+
+            statement.setInt(1, 18);  // Student 18
+            statement.setString(2, "Elias Taco");
+            statement.executeUpdate();
+
+            statement.setInt(1, 19);  // Student 19
+            statement.setString(2, "Estefania Bermudes");
+            statement.executeUpdate();
+
+            statement.setInt(1, 20);  // Student 20
+            statement.setString(2, "Danny Rengifo");
+            statement.executeUpdate();
         }
     }
 
@@ -122,20 +160,20 @@ public class DataInitializer  {
            
             statement.setInt(1, 1001);
             statement.setString(2, "Software Quality Assurance and Testing");
-            statement.setInt(3, 1); // Supondo que o instructor_id 1 existe na tabela de instrutores
-            statement.setInt(4, 3); // Supondo que o classroom_id 3 existe na tabela de salas de aula
+            statement.setInt(3, 1);
+            statement.setInt(4, 3);
             statement.executeUpdate();
 
             statement.setInt(1, 1002);
             statement.setString(2, "Test Automation and Scripting");
-            statement.setInt(3, 3); // Supondo que o instructor_id 3 existe na tabela de instrutores
-            statement.setInt(4, 2); // Supondo que o classroom_id 2 existe na tabela de salas de aula
+            statement.setInt(3, 3);
+            statement.setInt(4, 2);
             statement.executeUpdate();
 
             statement.setInt(1, 1003);
             statement.setString(2, "Introduction to Linux");
-            statement.setInt(3, 2); // Supondo que o instructor_id 2 existe na tabela de instrutores
-            statement.setInt(4, 1); // Supondo que o classroom_id 1 existe na tabela de salas de aula
+            statement.setInt(3, 2);
+            statement.setInt(4, 1);
             statement.executeUpdate();
        }
     

@@ -14,11 +14,11 @@ public class GradesResources extends BaseResources{
         try {
             // Make the first selection to show what the user is seeing.
             String tableOptionCase = valuesOfTable.get(optionCase);
-            System.out.println("Class DB contains: ");
+            System.out.println("Grades DB contains: ");
 
             selectMethod(optionCase);
             int gradesId = getNextId(optionCase);
-            System.out.println("\n Please insert the studentID' idClass: ");
+            System.out.println("\n Please insert the studentID: ");
             selectMethod('S');
             int studentId = Integer.parseInt(scan.nextLine());
             selectMethod('C');
@@ -27,7 +27,7 @@ public class GradesResources extends BaseResources{
             System.out.println("Assign the Score grade now: ");
             double scoreGrade = Double.parseDouble(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, CourseID, GradesID, Grades) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, CourseID, GradesID, Grades) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                 preparedStatement.setInt(1, studentId);
                 preparedStatement.setInt(2, courseId);
@@ -40,7 +40,7 @@ public class GradesResources extends BaseResources{
             System.out.println("\nUpdated Table \n");
             selectMethod(optionCase);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.err.println("Error inserting data: " + e.getMessage());
         }
     }
 
@@ -53,16 +53,16 @@ public class GradesResources extends BaseResources{
 
             selectMethod(optionCase);
 
-            System.out.println("\n Please insert the ID of the grade row to edit: ");
-            int gradeId = Integer.parseInt(scan.nextLine());
+            System.out.println("\n Please insert the ID of the Student row to edit: ");
+            int studentID = Integer.parseInt(scan.nextLine());
 
             System.out.println("Assign the new Score Grade: ");
             double scoreGrade = Double.parseDouble(scan.nextLine());
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET Grades = ? WHERE GradesID = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET Grades = ? WHERE StudentID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
                 preparedStatement.setDouble(1, scoreGrade);
-                preparedStatement.setInt(2, gradeId);
+                preparedStatement.setInt(2, studentID);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);

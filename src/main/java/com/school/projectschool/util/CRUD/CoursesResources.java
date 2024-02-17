@@ -8,25 +8,28 @@ public class CoursesResources extends BaseResources {
     }
 
     public void insertMethod(char optionCase) {
-
-        System.out.println("Insert Class mode enabled: ");
+        System.out.println("Insert Courses mode enabled: ");
 
         try {
             // Make the first selection to show what the user is seeing.
             String tableOptionCase = valuesOfTable.get(optionCase);
-            System.out.println("Class DB contains: ");
+            System.out.println("Courses DB contains: ");
             selectMethod(optionCase);
             int courseID = getNextId(optionCase);
-            System.out.println("\n Please insert the new Course' name: ");
+            System.out.println("\n Please insert the name of the Course: ");
             String courseName = scan.nextLine();
             System.out.println("Assign the Instructor ID now: ");
             selectMethod('I');
             int instructorID = Integer.parseInt(scan.nextLine());
             System.out.println("Assign the Classroom ID now: ");
-            selectMethod('R');
             int classroomID = Integer.parseInt(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (CourseID, CourseName, InstructorID, ClassroomID) VALUES (?, ?)";
+            if (isClassroomIDAlreadyUsed(classroomID, tableOptionCase)) {
+                System.out.println("ClassroomID " + classroomID + " is already used Please choose a different ClassroomID");
+                return;
+            }
+
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (CourseID, CourseName, InstructorID, ClassroomID) VALUES (?, ?, ?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                 preparedStatement.setInt(1, courseID);
                 preparedStatement.setString(2, courseName);
@@ -41,6 +44,20 @@ public class CoursesResources extends BaseResources {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean isClassroomIDAlreadyUsed(int classroomID, String tableName) throws SQLException {
+        String query = "SELECT COUNT(*) FROM " + tableName + " WHERE ClassroomID = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, classroomID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        }
+        return false;
     }
 
     public void updateMethod(char optionCase) {

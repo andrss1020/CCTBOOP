@@ -26,7 +26,7 @@ public class ClassroomResources     extends BaseResources {
             System.out.println("Assign the Classrooms Number now: ");
             int classroomNumber = Integer.parseInt(scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClasroomsID, ClassroomNumber) VALUES (?, ?)";
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (ClassroomID, ClassroomNumber) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
                 preparedStatement.setInt(1, classroomID);
                 preparedStatement.setInt(2, classroomNumber);

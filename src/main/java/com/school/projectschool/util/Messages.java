@@ -6,7 +6,7 @@ public class Messages {
     public static void optionsMainMenu(){
         System.out.println("Please select from the options: \n "
                 + "\n For Student management, select S "
-                + "\n For Instructor management, select T "
+                + "\n For Instructor management, select I "
                 + "\n For Courses management, select C "
                 + "\n For Class room management, select R "
                 + "\n For Grades  management, select G "

@@ -21,7 +21,7 @@ public class InstructorResources extends BaseResources {
             selectMethod(optionCase);
             int instructorId = getNextId(optionCase);
 
-            System.out.println("\n Please insert the name of Instructor' instructorName: ");
+            System.out.println("\n Please insert the name of Instructor : ");
             String instructorName = scan.nextLine();
 
             String insertQuery = "INSERT INTO " + tableOptionCase + " (InstructorID, InstructorName) VALUES (?, ?)";

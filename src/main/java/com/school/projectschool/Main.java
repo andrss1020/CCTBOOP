@@ -16,6 +16,7 @@ public class Main {
         GradesResources resourcesGrades = new GradesResources();
         InstructorResources resourcesInstructor = new InstructorResources();
         StudentsResources resourcesStudent = new StudentsResources();
+        ClassroomResources resourcesClassroom = new ClassroomResources();
         ReportUtil reportUtil = new ReportUtil();
 
         // Getting Parameters
@@ -43,7 +44,6 @@ public class Main {
 
                         switch (studentMenu) {
                             case 'I': {
-                                resourcesStudent.selectMethod('S');
                                 resourcesStudent.insertMethod('S');
                                 break;
                             }
@@ -78,19 +78,18 @@ public class Main {
 
                         switch (teacherMenu) {
                             case 'I': {
-                                System.out.println("Insert Teacher mode enabled: ");
-                                resourcesInstructor.insertMethod('T');
+                                resourcesInstructor.insertMethod('I');
                                 break;
                             }
                             case 'E': {
                                 System.out.println("Editing Teacher mode enabled: ");
-                                resourcesInstructor.updateMethod('T');
+                                resourcesInstructor.updateMethod('I');
 
                                 break;
                             }
                             case 'D': {
                                 System.out.println("Deleting Teacher mode enabled: ");
-                                resourcesInstructor.deleteMethod('T');
+                                resourcesInstructor.deleteMethod('I');
 
                                 break;
                             }
@@ -152,19 +151,17 @@ public class Main {
                         switch (roomMenu) {
                             case 'I': {
                                 System.out.println("Insert Class room mode enabled: ");
-                                // call external class for connecting to DB
+                                resourcesClassroom.insertMethod('R');
                                 break;
                             }
                             case 'E': {
                                 System.out.println("Editing Class room mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesClassroom.updateMethod('R');
                                 break;
                             }
                             case 'D': {
                                 System.out.println("Deleting Class room mode enabled: ");
-                                // call external class for connecting to DB
-
+                                resourcesClassroom.deleteMethod('R');
                                 break;
                             }
                             case 'X': {
