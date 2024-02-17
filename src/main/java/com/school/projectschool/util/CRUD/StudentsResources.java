@@ -1,32 +1,36 @@
 package com.school.projectschool.util.CRUD;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
-public class InstructorResources extends BaseResources {
+public class StudentsResources extends BaseResources {
 
-    public InstructorResources() {
+    public StudentsResources() {
         super();
     }
 
     public void insertMethod(char optionCase) {
-
-        System.out.println("Insert Instructor mode enabled: ");
+        System.out.println("Insert Student mode enabled: ");
 
         try {
             String tableOptionCase = valuesOfTable.get(optionCase);
-            System.out.println("Instructor DB contains: ");
+            System.out.println("Student DB contains: ");
 
             selectMethod(optionCase);
-            System.out.println("\n Please insert the new Instructor' idClass: ");
-            int InstructorId = Integer.parseInt(scan.nextLine());
-            System.out.println("Assign the InstructorId now: ");
-            String InstructorCode = (scan.nextLine());
 
-            String insertQuery = "INSERT INTO " + tableOptionCase + " (InstructorId, InstructorCode) VALUES (?, ?)";
+//            System.out.println("\nPlease insert the new Student's ID: ");
+            int studentId = getNextId(optionCase);
+
+            System.out.println("Assign the Student's name: ");
+            String studentName = scan.nextLine();
+
+            String insertQuery = "INSERT INTO " + tableOptionCase + " (StudentID, StudentName) VALUES (?, ?)";
             try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
-                preparedStatement.setInt(1, InstructorId);
-                preparedStatement.setString(2, InstructorCode);
+                preparedStatement.setInt(1, studentId);
+                preparedStatement.setString(2, studentName);
+
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
             }
@@ -39,27 +43,25 @@ public class InstructorResources extends BaseResources {
     }
 
     public void updateMethod(char optionCase) {
-        System.out.println("Editing Instructor enabled: ");
+        System.out.println("Editing Student enabled: ");
 
         try {
             String tableOptionCase = valuesOfTable.get(optionCase);
-            System.out.println("Instructor DB contains: ");
+            System.out.println("Student DB contains: ");
 
             selectMethod(optionCase);
 
-            System.out.println("\n Please insert the ID of the Instructor row to edit: ");
-            String Name = scan.nextLine();
+            System.out.println("\nPlease insert the ID of the Student row to edit: ");
+            int studentId = Integer.parseInt(scan.nextLine());
 
-            System.out.println("Enter the new Instructor ID: ");
-            System.out.println("Assign the new Name: ");
-            int InstructorId = Integer.parseInt(scan.nextLine());
-            String InstructorCode = "CCTB-Instructor" + InstructorId;
+            System.out.println("Enter the new Student ID: ");
+            System.out.println("Assign the new name: ");
+            String studentName = scan.nextLine();
 
-            String updateQuery = "UPDATE " + tableOptionCase + " SET InstructorId = ?, Name = ? WHERE InstructorCode = ?";
+            String updateQuery = "UPDATE " + tableOptionCase + " SET StudentName = ? WHERE StudentID = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
-                preparedStatement.setInt(1, InstructorId);
-                preparedStatement.setString(2, Name );
-                preparedStatement.setString(3, InstructorCode);
+                preparedStatement.setString(1, studentName);
+                preparedStatement.setInt(2, studentId);
 
                 int rowCount = preparedStatement.executeUpdate();
                 System.out.println("Updated Rows: " + rowCount);
@@ -73,25 +75,25 @@ public class InstructorResources extends BaseResources {
     }
 
     public void deleteMethod(char optionCase) {
-        System.out.println("Deleting Instructor mode enabled: ");
+        System.out.println("Deleting Student mode enabled: ");
 
         try {
             String tableOptionCase = valuesOfTable.get(optionCase);
-            System.out.println("Instructor DB contains: ");
+            System.out.println("Student DB contains: ");
 
             selectMethod(optionCase);
 
-            System.out.println("\n Please insert the ID of the Instructor row to DELETE: ");
-            int InstructorId = Integer.parseInt(scan.nextLine());
+            System.out.println("\nPlease insert the ID of the Student row to DELETE: ");
+            int studentId = Integer.parseInt(scan.nextLine());
 
-            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE InstructorId = ?";
+            String deleteQuery = "DELETE FROM " + tableOptionCase + " WHERE StudentID = ?";
             System.out.println(deleteQuery + "\n");
-            System.out.println("Are you sure you want to delete this Instructor? (Yes/No)\n");
+            System.out.println("Are you sure you want to delete this Student? (Yes/No)\n");
             String areYouSure = scan.nextLine();
 
             if (areYouSure.equals("Yes")) {
                 try (PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
-                    preparedStatement.setInt(1, InstructorId);
+                    preparedStatement.setInt(1, studentId);
 
                     int rowCount = preparedStatement.executeUpdate();
                     System.out.println("Updated Rows: " + rowCount);
@@ -100,7 +102,7 @@ public class InstructorResources extends BaseResources {
                 System.out.println("\nUpdated Table \n");
                 selectMethod(optionCase);
             } else {
-                System.out.println("\n value not eliminated: ");
+                System.out.println("\nValue not eliminated: ");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

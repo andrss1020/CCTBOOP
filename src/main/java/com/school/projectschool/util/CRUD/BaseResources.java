@@ -1,6 +1,6 @@
 package com.school.projectschool.util.CRUD;
 
-import com.school.projectschool.util.Maps;
+import com.school.projectschool.util.MappingValues;
 import com.school.projectschool.util.database.MySqlConnection;
 
 import java.sql.*;
@@ -9,18 +9,18 @@ import java.util.Scanner;
 
 public abstract class BaseResources implements CRUDoperations {
     protected final Connection connection;
-    protected final Map<Character, String> valuesOfMap;
+    public final Map<Character, String> valuesOfTable;
     protected final Scanner scan;
 
     public BaseResources() {
         this.connection = MySqlConnection.getConnection();
-        this.valuesOfMap = new Maps().initializeMapSchool();
+        this.valuesOfTable = new MappingValues().tablesSchool();
         this.scan = new Scanner(System.in);
     }
 
     public void selectMethod(char optionCase) {
         try {
-            String tableOptionCase = valuesOfMap.get(optionCase);
+            String tableOptionCase = valuesOfTable.get(optionCase);
             String query = "SELECT * FROM " + tableOptionCase;
 
             try (PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -45,6 +45,22 @@ public abstract class BaseResources implements CRUDoperations {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    protected int getNextId(char optionCase) throws SQLException {
+        String tableOptionCase = valuesOfTable.get(optionCase);
+        String sql = "SELECT MAX(*) + 1 AS nextId FROM " + tableOptionCase;
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+
+            int nextId = 1;
+
+            if (resultSet.next()) {
+                nextId = resultSet.getInt("nextId");
+            }
+
+            return nextId;
         }
     }
 }
